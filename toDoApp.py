@@ -1,39 +1,52 @@
-tasks = []  # Global list to store tasks
+tasks = []
 
-
-def add_task():
-    """Adds a new task to the to-do list."""
-    task = input("Enter a new task: ")
+def add_task(task):
     tasks.append(task)
-    print("Task added.")
-
+    print("Task added!")
 
 def show_tasks():
-    """Displays all tasks in the to-do list."""
-    if not tasks:
-        print("No tasks in the list.")
+    if len(tasks) == 0:
+        print("No tasks yet")
     else:
-        print("\nYour Tasks:")
-        for i, task in enumerate(tasks, start=1):
-            print(f"{i}. {task}")
-
+        for i in range(len(tasks)):
+            print(i + 1, ".", tasks[i])
 
 def remove_task(task_number):
-    """Removes a task based on its number."""
-    if 0 < task_number <= len(tasks):
-        removed = tasks.pop(task_number - 1)
-        print(f"Removed task: {removed}")
-    else:
+    try:
+        tasks.pop(task_number - 1)
+        print("Task removed!")
+    except IndexError:
         print("Invalid task number.")
-print("\n--- TO-DO LIST MENU ---")
-print("1. Add Task")
-print("2. Show Tasks")
-print("3. Remove Task")
-print("4. Exit")
 
-Add confirmation for deletion:
-confirm = input("Are you sure you want to delete this task? (y/n): ")
-if confirm.lower() == "y":
-    remove_task(task_number)
-else:
-    print("Cancelled deletion.")
+def main():
+    while True:
+        print("\n--- TO-DO APP ---")
+        print("1. Add Task")
+        print("2. Show Tasks")
+        print("3. Remove Task")
+        print("4. Exit")
+        
+        ch = input("Enter choice: ")
+        
+        if ch == "1":
+            t = input("Enter task: ").strip()
+            if t:
+                add_task(t)
+            else:
+                print("Task cannot be empty.")
+        elif ch == "2":
+            show_tasks()
+        elif ch == "3":
+            try:
+                n = int(input("Enter task no to remove: "))
+                remove_task(n)
+            except ValueError:
+                print("Please enter a valid number.")
+        elif ch == "4":
+            print("Exiting app...")
+            break
+        else:
+            print("Invalid choice. Please try again.")
+
+main()
+
